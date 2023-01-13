@@ -1,4 +1,5 @@
 import javax.swing.*;
+import java.net.HttpURLConnection;
 import java.net.URI;
 import java.net.URLEncoder;
 import java.net.http.HttpClient;
@@ -33,6 +34,22 @@ public class GestorPeticionesHTTP
 
     public static void main(String[] args) {
         String tituloPelicula = JOptionPane.showInputDialog("Introduzca el nombre de la película a buscar");
-        
+        String esquema = "http://";
+        String servidor = "www.omdbapi.com/?apikey=cb43d735&t=";
+        String recurso = tituloPelicula.replace(" ","+");
+
+
+        GestorPeticionesHTTP gestorPeticionesHTTP = new GestorPeticionesHTTP();
+        try {
+            int codigoEstado = gestorPeticionesHTTP.almacenarPagina(esquema,servidor,recurso,"respuestas/" + recurso + ".json");
+
+            if (codigoEstado == HttpURLConnection.HTTP_OK){
+                System.out.println("Descarga finalizada");
+            }else {
+                System.out.println("Error " + codigoEstado);
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }
     }
 }
